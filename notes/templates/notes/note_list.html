@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Заметки по теме: {{ theme.name }}</title>
+</head>
+<body>
+    <h1>Заметки по теме: {{ theme.name }}</h1>
+    <form method="post" action="{% url 'note_list' theme.id %}">
+        {% csrf_token %}
+        <textarea name="content" placeholder="Новая заметка"></textarea>
+        <button type="submit">Добавить заметку</button>
+    </form>
+    <ul>
+        {% for note in notes %}
+            <li>
+                {{ note.content }}
+                <form method="post" action="{% url 'delete_note' note.id %}" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit">Удалить</button>
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'theme_list' %}">Вернуться к списку тем</a>
+</body>
+</html>
